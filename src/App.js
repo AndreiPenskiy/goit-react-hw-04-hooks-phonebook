@@ -32,19 +32,25 @@ export default function App() {
       : setContacts([newContact, ...contacts]);
   };
 
-  const getVisibleContacts = () => {
+  
     const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact => 
+    const visibleContacts = contacts.filter(contact => 
      contact.name.toLowerCase().includes(normalizedFilter)
     );
-  };
+  
+
+  useEffect(() => {
+    const storageContacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(storageContacts);
+    setContacts(parsedContacts);
+  }, []);
   
 
    useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
 
-  const visibleContacts = getVisibleContacts();
+  
 
 
     return (
